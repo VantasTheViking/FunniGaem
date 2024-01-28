@@ -119,7 +119,8 @@ public class LobbyProto : MonoBehaviour
             };
 
             QueryResponse queryResp = await Lobbies.Instance.QueryLobbiesAsync();
-            Debug.Log($"Lobbies {queryResp.Results.Count}");
+            //
+            //Debug.Log($"Lobbies {queryResp.Results.Count}");
 
             //Delete This After Testing
             //joinedLobby = queryResp.Results[0];
@@ -177,6 +178,7 @@ public class LobbyProto : MonoBehaviour
 
         if (joinedLobby != null)
         {
+            Debug.Log(joinedLobby.Data["GameKey"].Value);
             //joinedLobby = LobbyService.Instance.GetLobbyAsync(joinedLobby.Id).Result;
             //Debug.Log(joinedLobby.Players.Count);
             if (joinedLobby.Data["GameKey"].Value != "0")
@@ -195,8 +197,9 @@ public class LobbyProto : MonoBehaviour
 
         if (hostLobby != null)
         {
-            
-            if (hostLobby.Data["GameKey"].Value != "0")
+            Debug.Log(hostLobby.Data["GameKey"].Value);
+            Debug.Log(hostLobby.Players.Count);
+            if (hostLobby.Players.Count == maxPlayers)
             {
                 Debug.Log("Start");
                 LobbyData.isHost = true;
@@ -246,7 +249,7 @@ public class LobbyProto : MonoBehaviour
     }
     private void Update()
     {
-        
+        /*
         if (Input.GetKeyDown(KeyCode.K))
         {
             CreateLobby();
@@ -259,6 +262,7 @@ public class LobbyProto : MonoBehaviour
         {
             JoinLobby(0);
         }
+        */
         if (running)
         {
             DataUpdate();
