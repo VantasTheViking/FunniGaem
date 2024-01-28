@@ -8,6 +8,8 @@ using Unity.Services.Lobbies.Models;
 using UnityEngine.SceneManagement;
 using Unity.Netcode;
 using TMPro;
+using Unity.Services.Relay.Models;
+using Unity.Services.Relay;
 
 
 public class LobbyProto : MonoBehaviour 
@@ -63,10 +65,19 @@ public class LobbyProto : MonoBehaviour
                 {
                     Player = new Player
                     {
-                        Data = new Dictionary<string, PlayerDataObject> {
-                        { "PlayerName", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Public, playerName) }
-                    }
+                        Data = new Dictionary<string, PlayerDataObject>
+                        {
+                            { "PlayerName", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Public, playerName)},
+                            //
+                                
+                            
+                        }
+                    
 
+                    },
+                    Data = new Dictionary<string, DataObject> {
+
+                        { "GameKey", new DataObject(DataObject.VisibilityOptions.Member, "0")}
                     }
                 };
 
@@ -150,6 +161,11 @@ public class LobbyProto : MonoBehaviour
             {
                 lobbyTimer = lobbyresetTimerDuration;
                 await LobbyService.Instance.SendHeartbeatPingAsync(hostLobby.Id);
+
+                if (hostLobby != null)
+                {
+                    hostLobby = LobbyService.Instance.GetLobbyAsync(hostLobby.Id).Result;
+                }
             }
         }
         updateListTimer -= Time.deltaTime;
@@ -164,13 +180,14 @@ public class LobbyProto : MonoBehaviour
         {
             //joinedLobby = LobbyService.Instance.GetLobbyAsync(joinedLobby.Id).Result;
             //Debug.Log(joinedLobby.Players.Count);
-            if (joinedLobby.Players.Count == maxPlayers)
+            if (joinedLobby.Data["GameKey"].Value != "0")
             {
                 Debug.Log("Start");
                 LobbyData.isHost = false;
                 running = false;
 
-                SceneManager.LoadScene("Canvas");
+                GameRelay.Instance.JoinRelay(joinedLobby.Data["GameKey"].Value);
+                //SceneManager.LoadScene("Canvas");
             }
         }
 
@@ -178,14 +195,15 @@ public class LobbyProto : MonoBehaviour
 
         if (hostLobby != null)
         {
-            //hostLobby = LobbyService.Instance.GetLobbyAsync(hostLobby.Id).Result;
+            
             if (hostLobby.Players.Count == maxPlayers)
             {
                 Debug.Log("Start");
                 LobbyData.isHost = true;
                 running = false;
 
-                SceneManager.LoadScene("Canvas");
+                StartGame();
+                //SceneManager.LoadScene("Canvas");
             }
         }
     }
@@ -254,6 +272,29 @@ public class LobbyProto : MonoBehaviour
             Debug.Log(e.Message); 
         }
 
+    }
+
+    
+
+    async void StartGame()
+    {
+        try
+        {
+            string relayCode = await GameRelay.Instance.CreateRelay();
+
+            Lobby lobby = await Lobbies.Instance.UpdateLobbyAsync(hostLobby.Id, new UpdateLobbyOptions
+            {
+                Data = new Dictionary<string, DataObject>
+                {
+                    { "GameKey", new DataObject(DataObject.VisibilityOptions.Member, relayCode)}
+
+                }
+            
+            });
+        } catch (LobbyServiceException e)
+        {
+            Debug.Log(e);
+        }
     }
 
     private void OnApplicationQuit()
