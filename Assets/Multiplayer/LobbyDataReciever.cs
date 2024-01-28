@@ -10,10 +10,10 @@ using Unity.Networking.Transport.Relay;
 using Unity.Netcode.Transports.UTP;
 public class LobbyDataReciever : MonoBehaviour
 {
-    [SerializeField] GameObject playerTitle1;
-    [SerializeField] GameObject playerTitle2;
-    [SerializeField] GameObject playerTitle3;
-    [SerializeField] GameObject playerTitle4;
+     public GameObject playerTitle1;
+     public GameObject playerTitle2;
+     public GameObject playerTitle3;
+     public GameObject playerTitle4;
     /*
     private void Awake()
     {
