@@ -7,8 +7,10 @@ using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
 using UnityEngine.SceneManagement;
 using Unity.Netcode;
+using TMPro;
 
-public class LobbyProto : NetworkBehaviour 
+
+public class LobbyProto : MonoBehaviour 
 {
     Lobby hostLobby;
     float lobbyresetTimerDuration = 20.0f;
@@ -19,7 +21,11 @@ public class LobbyProto : NetworkBehaviour
     string playerName = "John Networking";
     int maxPlayers = 2;
     bool running = true;
-    [SerializeField] 
+
+    [SerializeField] TMP_Text server1Text;
+    [SerializeField] TMP_Text server2Text;
+    [SerializeField] TMP_Text server3Text;
+    [SerializeField] TMP_Text server4Text;
 
 
     public void ReadName(string name)
@@ -30,7 +36,7 @@ public class LobbyProto : NetworkBehaviour
     // Start is called before the first frame update
     async void Start()
     {
-        Debug.Log(OwnerClientId);
+        //Debug.Log(OwnerClientId);
 
         await UnityServices.InitializeAsync();
 
@@ -105,14 +111,22 @@ public class LobbyProto : NetworkBehaviour
             //Delete This After Testing
             //joinedLobby = queryResp.Results[0];
 
-
+            /*
             if (queryResp.Results.Count > 0)
             {
                 foreach (Lobby l in queryResp.Results)
                 {
+
                     Debug.Log($"Owner Name: {l.Players[0].Data["PlayerName"].Value}, Players: {l.Players.Count}/{l.MaxPlayers}");
                 }
             }
+            */
+
+            server1Text.text = $"Owner Name: {queryResp.Results[0].Players[0].Data["PlayerName"].Value}, Size: {queryResp.Results[0].Players.Count}/{queryResp.Results[0].MaxPlayers}";
+            server2Text.text = $"Owner Name: {queryResp.Results[1].Players[1].Data["PlayerName"].Value}, Size: {queryResp.Results[1].Players.Count}/{queryResp.Results[1].MaxPlayers}";
+            server3Text.text = $"Owner Name: {queryResp.Results[2].Players[2].Data["PlayerName"].Value}, Size: {queryResp.Results[2].Players.Count}/{queryResp.Results[2].MaxPlayers}";
+            server4Text.text = $"Owner Name: {queryResp.Results[3].Players[3].Data["PlayerName"].Value}, Size: {queryResp.Results[3].Players.Count}/{queryResp.Results[3].MaxPlayers}";
+
 
         } catch (LobbyServiceException e)
         {
@@ -186,11 +200,15 @@ public class LobbyProto : NetworkBehaviour
         QueryResponse queryResp = await Lobbies.Instance.QueryLobbiesAsync();
 
         //joinedLobby = queryResp.Results[0];
-        joinedLobby = queryResp.Results[x];
+        if (queryResp.Results[x] != null)
+        {
+            joinedLobby = queryResp.Results[x];
 
-        LobbyData.playerNumber = joinedLobby.Players.Count;
+            LobbyData.playerNumber = joinedLobby.Players.Count;
 
-        await Lobbies.Instance.JoinLobbyByIdAsync(joinedLobby.Id);
+            await Lobbies.Instance.JoinLobbyByIdAsync(joinedLobby.Id);
+        }
+        
 
     }
 
