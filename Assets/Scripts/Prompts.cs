@@ -9,22 +9,29 @@ public class Prompts : NetworkBehaviour
     public float time = 10f;
     public TMP_Text prom;
 
-    public static string promText;
+    public string promText;
 
+
+    public float refreshDuration = 1.0f;
+    public float refresh = 0;
     //NetworkVariable<string> promText = new NetworkVariable<string>(" ", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     // Start is called before the first frame update
-    void Start()
+    private void OnEnable()
     {
+        GetComponent<NetworkObject>().Spawn();
 
     }
+
 
     // Update is called once per frame
     void Update()
     {
-        if (IsHost)
+
+
+
+        if (LobbyData.isHost)
         {
-
-
+            Debug.Log(LobbyData.playerNumber);
             Prompt();
 
             promText.ToString();
@@ -40,17 +47,33 @@ public class Prompts : NetworkBehaviour
             {
                 random();
             }
-            
 
-
-            ChangePromptClientRpc(promText.ToString());
         }
 
-        //Debug.Log(IsHost);
+        refresh -= Time.deltaTime;
+        if (refresh < 0)
+        {
+            refresh = refreshDuration;
+            //Debug.Log("refresh");
+            ChangePromptServerRpc(promText);
+            //prom.text = promText;
+        }
         
+        //
+        //ChangePromptClientRpc(promText.ToString());
+
+
+        //Debug.Log(IsHost);
+
         //prom.text.ToString();
     }
+    [ServerRpc]
+    void ChangePromptServerRpc(string s)
+    {
+        ChangePromptClientRpc(s);
+        prom.text = s;
 
+    }
     [ClientRpc]
     void ChangePromptClientRpc(string s)
     {

@@ -43,7 +43,7 @@ public class LobbyDataReciever : MonoBehaviour
             Debug.Log("StartCLient");
         }
     }
-    */
+    
     /*
     async void Start()
     {

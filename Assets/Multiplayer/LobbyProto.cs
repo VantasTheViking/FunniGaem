@@ -20,12 +20,15 @@ public class LobbyProto : MonoBehaviour
     float updateListTimerDuration = 3.0f;
     float updateListTimer = 0;
     Lobby joinedLobby;
-    string playerName = "John Networking";
+    public string playerName = "John Networking";
     int maxPlayers = 2;
     bool running = true;
     float pollTimerDuration = 1.5f;
     float pollTimer = 0;
+
+    [SerializeField] TMP_Text debugText;
     [SerializeField] GameObject start;
+    [SerializeField] GameObject game;
     [SerializeField] TMP_Text server1Text;
     [SerializeField] TMP_Text server2Text;
     [SerializeField] TMP_Text server3Text;
@@ -42,13 +45,7 @@ public class LobbyProto : MonoBehaviour
     {
         //Debug.Log(OwnerClientId);
 
-        await UnityServices.InitializeAsync();
-
-        AuthenticationService.Instance.SignedIn += () =>
-        {
-            Debug.Log("Signed in " + AuthenticationService.Instance.PlayerId);
-        };
-        await AuthenticationService.Instance.SignInAnonymouslyAsync();
+        
 
         
 
@@ -176,39 +173,7 @@ public class LobbyProto : MonoBehaviour
         }
 
 
-        if (joinedLobby != null)
-        {
-            Debug.Log(joinedLobby.Data["GameKey"].Value);
-            //joinedLobby = LobbyService.Instance.GetLobbyAsync(joinedLobby.Id).Result;
-            //Debug.Log(joinedLobby.Players.Count);
-            if (joinedLobby.Data["GameKey"].Value != "0")
-            {
-                Debug.Log("Start");
-                LobbyData.isHost = false;
-                running = false;
-
-                start.SetActive(false);
-                GameRelay.Instance.JoinRelay(joinedLobby.Data["GameKey"].Value);
-                //SceneManager.LoadScene("Canvas");
-            }
-        }
-
-
-
-        if (hostLobby != null)
-        {
-            Debug.Log(hostLobby.Data["GameKey"].Value);
-            Debug.Log(hostLobby.Players.Count);
-            if (hostLobby.Players.Count == maxPlayers)
-            {
-                Debug.Log("Start");
-                LobbyData.isHost = true;
-                running = false;
-
-                StartGame();
-                //SceneManager.LoadScene("Canvas");
-            }
-        }
+        
     }
 
 
@@ -223,8 +188,9 @@ public class LobbyProto : MonoBehaviour
         //joinedLobby = queryResp.Results[0];
         if (queryResp.Results[x] != null)
         {
+            Debug.Log("Valid");
             joinedLobby = queryResp.Results[x];
-
+            
             LobbyData.playerNumber = joinedLobby.Players.Count;
 
             await Lobbies.Instance.JoinLobbyByIdAsync(joinedLobby.Id);
@@ -272,23 +238,57 @@ public class LobbyProto : MonoBehaviour
 
     public async void PollUpdates()
     {
-        pollTimer -= 0;
+        pollTimer -= Time.deltaTime;
         if (pollTimer < 0)
         {
             pollTimer = pollTimerDuration;
 
             if (joinedLobby != null)
             {
+                Debug.Log("Updated JoinLobby");
                 Lobby lobby = await LobbyService.Instance.GetLobbyAsync(joinedLobby.Id);
                 joinedLobby = lobby;
             }
             if (hostLobby != null)
             {
+                Debug.Log("updated host lobby");
                 Lobby lobby = await LobbyService.Instance.GetLobbyAsync(hostLobby.Id);
                 hostLobby = lobby;
             }
 
+            //Debug.Log($"joinedlobby players: {joinedLobby.Players.Count}");
+            //Debug.Log($"hostlobby players: {hostLobby.Players.Count}");
 
+            
+            Debug.Log( $"JoinedLobbyGameKeyVal:{joinedLobby.Data["GameKey"].Value}");
+            //joinedLobby = LobbyService.Instance.GetLobbyAsync(joinedLobby.Id).Result;
+            //Debug.Log(joinedLobby.Players.Count);
+            if (joinedLobby.Data["GameKey"].Value != "0")
+            {
+                Debug.Log("Start");
+                LobbyData.isHost = false;
+                running = false;
+
+
+                GameRelay.Instance.JoinRelay(joinedLobby.Data["GameKey"].Value);
+
+                start.SetActive(false);
+                game.SetActive(true);
+                //SceneManager.LoadScene("Canvas");
+            }
+            
+
+
+            /*
+            if (hostLobby != null)
+            {
+                Debug.Log(hostLobby.Data["GameKey"].Value);
+                Debug.Log(hostLobby.Players.Count);
+                if (hostLobby.Players.Count == maxPlayers)
+                {
+                    
+                }
+            }*/
         }
 
     }
@@ -309,9 +309,12 @@ public class LobbyProto : MonoBehaviour
 
     async void StartGame()
     {
+
         try
         {
+            //debugText.text = "startgame";
             string relayCode = await GameRelay.Instance.CreateRelay();
+            debugText.text = relayCode;
 
             Lobby lobby = await Lobbies.Instance.UpdateLobbyAsync(hostLobby.Id, new UpdateLobbyOptions
             {
@@ -322,14 +325,28 @@ public class LobbyProto : MonoBehaviour
                 }
             
             });
-            Debug.Log("StartGame");
+            debugText.text = "gameStart";
+
+            NetworkManager.Singleton.StartHost();
+            
             start.SetActive(false);
+            game.SetActive(true);
         } catch (LobbyServiceException e)
         {
-            Debug.Log(e);
+            debugText.text = e.Message;
         }
     }
 
+    public void buttonStart()
+    {
+        debugText.text = "buttonPress";
+
+        LobbyData.isHost = true;
+        running = false;
+
+        StartGame();
+        //SceneManager.LoadScene("Canvas");
+    }
     private void OnApplicationQuit()
     {
         if (hostLobby != null)
