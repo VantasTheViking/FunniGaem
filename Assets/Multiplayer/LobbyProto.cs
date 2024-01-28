@@ -23,6 +23,8 @@ public class LobbyProto : MonoBehaviour
     string playerName = "John Networking";
     int maxPlayers = 2;
     bool running = true;
+    float pollTimerDuration = 1.5f;
+    float pollTimer = 0;
 
     [SerializeField] TMP_Text server1Text;
     [SerializeField] TMP_Text server2Text;
@@ -162,10 +164,7 @@ public class LobbyProto : MonoBehaviour
                 lobbyTimer = lobbyresetTimerDuration;
                 await LobbyService.Instance.SendHeartbeatPingAsync(hostLobby.Id);
 
-                if (hostLobby != null)
-                {
-                    hostLobby = LobbyService.Instance.GetLobbyAsync(hostLobby.Id).Result;
-                }
+                
             }
         }
         updateListTimer -= Time.deltaTime;
@@ -259,7 +258,34 @@ public class LobbyProto : MonoBehaviour
         {
             JoinLobby(0);
         }
-        if(running) DataUpdate(); 
+        if (running)
+        {
+            DataUpdate();
+            PollUpdates();
+        }
+    }
+
+    public async void PollUpdates()
+    {
+        pollTimer -= 0;
+        if (pollTimer < 0)
+        {
+            pollTimer = pollTimerDuration;
+
+            if (joinedLobby != null)
+            {
+                Lobby lobby = await LobbyService.Instance.GetLobbyAsync(joinedLobby.Id);
+                joinedLobby = lobby;
+            }
+            if (hostLobby != null)
+            {
+                Lobby lobby = await LobbyService.Instance.GetLobbyAsync(hostLobby.Id);
+                hostLobby = lobby;
+            }
+
+
+        }
+
     }
 
     async void DeleteLobby()
@@ -301,7 +327,7 @@ public class LobbyProto : MonoBehaviour
     {
         if (hostLobby != null)
         {
-            if (joinedLobby.Players.Count > 0)
+            if (hostLobby.Players.Count > 0)
             {
                 MigrateHost();
                 LeaveLobby();

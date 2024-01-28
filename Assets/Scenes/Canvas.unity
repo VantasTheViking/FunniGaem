@@ -2554,7 +2554,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4636925894049450601, guid: 5fce64d47bf2ea942a93e20b7ae9a475, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1674312920}
   m_SourcePrefab: {fileID: 100100000, guid: 5fce64d47bf2ea942a93e20b7ae9a475, type: 3}
 --- !u!1 &1070368080
 GameObject:
@@ -3165,6 +3168,22 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4636925894049450601, guid: 5fce64d47bf2ea942a93e20b7ae9a475, type: 3}
   m_PrefabInstance: {fileID: 958625414}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1674312920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1674312915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93f7ffa8f2d739744932c46053577168, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  server1Text: {fileID: 2090541454435840146}
+  server2Text: {fileID: 1869280939176073515}
+  server3Text: {fileID: 8183014045852243588}
+  server4Text: {fileID: 7284104483681532105}
 --- !u!1 &1675027697
 GameObject:
   m_ObjectHideFlags: 0
@@ -3834,6 +3853,18 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1674312920}
+        m_TargetAssemblyTypeName: LobbyProto, Assembly-CSharp
+        m_MethodName: JoinLobby
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -5123,6 +5154,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1674312920}
+        m_TargetAssemblyTypeName: LobbyProto, Assembly-CSharp
+        m_MethodName: JoinLobby
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!222 &3581942383031651099
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6087,6 +6130,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1674312920}
+        m_TargetAssemblyTypeName: LobbyProto, Assembly-CSharp
+        m_MethodName: JoinLobby
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 3
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6686118301979064823
 GameObject:
   m_ObjectHideFlags: 0
@@ -6183,6 +6238,18 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1674312920}
+        m_TargetAssemblyTypeName: LobbyProto, Assembly-CSharp
+        m_MethodName: JoinLobby
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -6528,7 +6595,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1674312920}
         m_TargetAssemblyTypeName: LobbyProto, Assembly-CSharp
         m_MethodName: CreateLobby
         m_Mode: 1
