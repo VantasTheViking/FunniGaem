@@ -7,6 +7,7 @@ public class DrawColour : NetworkBehaviour
 {
     public LineRenderer lineRenderer;
     public Vector3[] positions;
+    public GameObject loop;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,8 +17,12 @@ public class DrawColour : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+        loop = GameObject.FindWithTag("Controller");
         lineRenderer.material = gameObject.GetComponentInParent<LineRenderer>().material;
-        
+         if (loop.GetComponent<GameLoop>().timer  == 60)
+        {
+            Destroy(gameObject);
+        }
     }
     [ServerRpc(RequireOwnership = false)]
     public void SendPointsServerRpc(Vector3[] pos)
