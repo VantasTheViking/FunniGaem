@@ -960,7 +960,19 @@ MonoBehaviour:
   m_CharacterLimit: 0
   m_OnEndEdit:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1674312920}
+        m_TargetAssemblyTypeName: LobbyProto, Assembly-CSharp
+        m_MethodName: ReadName
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnSubmit:
     m_PersistentCalls:
       m_Calls: []
@@ -3180,6 +3192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93f7ffa8f2d739744932c46053577168, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  start: {fileID: 0}
   server1Text: {fileID: 2090541454435840146}
   server2Text: {fileID: 1869280939176073515}
   server3Text: {fileID: 8183014045852243588}

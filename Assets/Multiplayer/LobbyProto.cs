@@ -25,7 +25,7 @@ public class LobbyProto : MonoBehaviour
     bool running = true;
     float pollTimerDuration = 1.5f;
     float pollTimer = 0;
-
+    [SerializeField] GameObject start;
     [SerializeField] TMP_Text server1Text;
     [SerializeField] TMP_Text server2Text;
     [SerializeField] TMP_Text server3Text;
@@ -185,6 +185,7 @@ public class LobbyProto : MonoBehaviour
                 LobbyData.isHost = false;
                 running = false;
 
+                start.SetActive(false);
                 GameRelay.Instance.JoinRelay(joinedLobby.Data["GameKey"].Value);
                 //SceneManager.LoadScene("Canvas");
             }
@@ -195,7 +196,7 @@ public class LobbyProto : MonoBehaviour
         if (hostLobby != null)
         {
             
-            if (hostLobby.Players.Count == maxPlayers)
+            if (hostLobby.Data["GameKey"].Value != "0")
             {
                 Debug.Log("Start");
                 LobbyData.isHost = true;
@@ -317,6 +318,8 @@ public class LobbyProto : MonoBehaviour
                 }
             
             });
+            Debug.Log("StartGame");
+            start.SetActive(false);
         } catch (LobbyServiceException e)
         {
             Debug.Log(e);
