@@ -15,7 +15,13 @@ public class GameRelay : MonoBehaviour
     // Start is called before the first frame update
     async void Start()
     {
-        
+        await UnityServices.InitializeAsync();
+
+        AuthenticationService.Instance.SignedIn += () =>
+        {
+            Debug.Log("Signed in " + AuthenticationService.Instance.PlayerId);
+        };
+        await AuthenticationService.Instance.SignInAnonymouslyAsync();
 
 
     }
@@ -34,7 +40,7 @@ public class GameRelay : MonoBehaviour
 
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
 
-            NetworkManager.Singleton.StartHost();
+            
 
             return joinCode;
         }
