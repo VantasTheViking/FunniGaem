@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class draw1 : MonoBehaviour
+public class draw1 : NetworkBehaviour
 {
     public Camera Camera;
     public GameObject brush;
@@ -11,12 +12,16 @@ public class draw1 : MonoBehaviour
     Vector2 lastPos;
     public Vector2 mouse;
     public Transform canvas;
+    GameObject brushInstance;
+    public Vector3[] positions;
     private void Start()
     {
         
     }
     private void Update()
     {
+        //if (!gameObject.GetComponentInParent<PlayerNetwork>().GetIsOwner()) return;
+
         Drawing();
         mouse = Camera.ScreenToWorldPoint(Input.mousePosition);
     }
@@ -36,8 +41,9 @@ public class draw1 : MonoBehaviour
             }
 
         }
-        else
+        else if (Input.GetKeyUp(KeyCode.Mouse0))
         {
+            SpawnBrushServerRpc();
             lineRenderer = null;
             
         }
@@ -51,9 +57,31 @@ public class draw1 : MonoBehaviour
             
         //}
     }
+
+    [ServerRpc(RequireOwnership = false)]
+    void SpawnBrushServerRpc()
+    {
+        brushInstance.GetComponent<NetworkObject>().Spawn(true);
+        brushInstance.GetComponent<NetworkObject>().TrySetParent(GetComponentInParent<Transform>());
+        //brushInstance.GetComponent<Transform>().SetParent(GetComponentInParent<Transform>());
+
+
+        positions = new Vector3[lineRenderer.positionCount];
+        
+        for(int i = 0;  i < positions.Length; i++)
+        {
+            positions[i] = lineRenderer.GetPosition(i);
+        }
+
+        
+        brushInstance.GetComponent<DrawColour>().SendPointsServerRpc(positions);
+        Debug.Log("Draw");
+    }
+
     void CreateBrush()
     {
-        GameObject brushInstance = Instantiate(brush, GetComponentInParent<Transform>());
+        brushInstance = Instantiate(brush, GetComponentInParent<Transform>());
+        //brushInstance.GetComponent<NetworkObject>().Spawn(true);
         lineRenderer = brushInstance.GetComponent<LineRenderer>();
 
         Vector2 mousePos = Camera.ScreenToWorldPoint(Input.mousePosition);

@@ -5,22 +5,32 @@ using Unity.Services.Core;
 using Unity.Services.Authentication;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
+using UnityEngine.SceneManagement;
+using Unity.Netcode;
 
-public class LobbyProto : MonoBehaviour 
+public class LobbyProto : NetworkBehaviour 
 {
     Lobby hostLobby;
     float lobbyresetTimerDuration = 20.0f;
     float lobbyTimer = 0;
-    float updateListTimerDuration = 1.5f;
+    float updateListTimerDuration = 3.0f;
     float updateListTimer = 0;
     Lobby joinedLobby;
     string playerName = "John Networking";
+    int maxPlayers = 2;
+    bool running = true;
+    [SerializeField] 
 
+
+    public void ReadName(string name)
+    {
+        playerName = name;
+    }
 
     // Start is called before the first frame update
     async void Start()
     {
-        
+        Debug.Log(OwnerClientId);
 
         await UnityServices.InitializeAsync();
 
@@ -34,14 +44,14 @@ public class LobbyProto : MonoBehaviour
 
     }
 
-    async void CreateLobby()
+    public async void CreateLobby()
     {
         if (hostLobby == null)
         {
             try
             {
                 string lobbyName = "Lobby";
-                int maxPlayers = 4;
+                
 
                 CreateLobbyOptions createLobbyOptions = new CreateLobbyOptions
                 {
@@ -58,7 +68,8 @@ public class LobbyProto : MonoBehaviour
 
                 hostLobby = lobby;
 
-                Debug.Log($"{lobby.Name}, {lobby.Players.Count}/{lobby.MaxPlayers}");
+                Debug.Log($"owner id: {hostLobby.Players[0].Id}");
+                //Debug.Log($"{lobby.Name}, {lobby.Players.Count}/{lobby.MaxPlayers}");
             }
             catch (LobbyServiceException e)
             {
@@ -90,7 +101,11 @@ public class LobbyProto : MonoBehaviour
 
             QueryResponse queryResp = await Lobbies.Instance.QueryLobbiesAsync();
             Debug.Log($"Lobbies {queryResp.Results.Count}");
-            joinedLobby = queryResp.Results[0];
+
+            //Delete This After Testing
+            //joinedLobby = queryResp.Results[0];
+
+
             if (queryResp.Results.Count > 0)
             {
                 foreach (Lobby l in queryResp.Results)
@@ -110,6 +125,10 @@ public class LobbyProto : MonoBehaviour
 
     async void DataUpdate()
     {
+
+        
+        
+
         if (hostLobby != null)
         {
             lobbyTimer -= Time.deltaTime;
@@ -125,13 +144,52 @@ public class LobbyProto : MonoBehaviour
             updateListTimer = updateListTimerDuration;
             ListLobbies();
         }
+
+
+        if (joinedLobby != null)
+        {
+            //joinedLobby = LobbyService.Instance.GetLobbyAsync(joinedLobby.Id).Result;
+            //Debug.Log(joinedLobby.Players.Count);
+            if (joinedLobby.Players.Count == maxPlayers)
+            {
+                Debug.Log("Start");
+                LobbyData.isHost = false;
+                running = false;
+
+                SceneManager.LoadScene("Canvas");
+            }
+        }
+
+
+
+        if (hostLobby != null)
+        {
+            //hostLobby = LobbyService.Instance.GetLobbyAsync(hostLobby.Id).Result;
+            if (hostLobby.Players.Count == maxPlayers)
+            {
+                Debug.Log("Start");
+                LobbyData.isHost = true;
+                running = false;
+
+                SceneManager.LoadScene("Canvas");
+            }
+        }
     }
+
+
     private void LeaveLobby()
     {
         LobbyService.Instance.RemovePlayerAsync(joinedLobby.Id, AuthenticationService.Instance.PlayerId);
     }
-    async void JoinLobby()
+    public async void JoinLobby(int x)
     {
+        QueryResponse queryResp = await Lobbies.Instance.QueryLobbiesAsync();
+
+        //joinedLobby = queryResp.Results[0];
+        joinedLobby = queryResp.Results[x];
+
+        LobbyData.playerNumber = joinedLobby.Players.Count;
+
         await Lobbies.Instance.JoinLobbyByIdAsync(joinedLobby.Id);
 
     }
@@ -152,6 +210,7 @@ public class LobbyProto : MonoBehaviour
     }
     private void Update()
     {
+        
         if (Input.GetKeyDown(KeyCode.K))
         {
             CreateLobby();
@@ -162,9 +221,9 @@ public class LobbyProto : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Y))
         {
-            JoinLobby();
+            JoinLobby(0);
         }
-        DataUpdate(); 
+        if(running) DataUpdate(); 
     }
 
     async void DeleteLobby()

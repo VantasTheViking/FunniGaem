@@ -9,6 +9,7 @@ public class Colour : MonoBehaviour
     public GameObject[] colours;
     public int width = 1;
 
+    bool isOwner;
 
     private void Start()
     {
@@ -20,6 +21,8 @@ public class Colour : MonoBehaviour
     }
     private void Update()
     {
+        //if (!gameObject.GetComponentInParent<PlayerNetwork>().GetIsOwner()) return;
+
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             gameObject.GetComponent<draw1>().brush = colours[0];
