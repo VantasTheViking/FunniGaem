@@ -178,7 +178,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &63476663
 RectTransform:
   m_ObjectHideFlags: 0
@@ -357,7 +357,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: John Clown
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1133,7 +1133,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: Bob
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1325,7 +1325,6 @@ GameObject:
   - component: {fileID: 621265544}
   - component: {fileID: 621265542}
   - component: {fileID: 621265545}
-  - component: {fileID: 621265546}
   m_Layer: 0
   m_Name: CanvasController
   m_TagString: Controller
@@ -1405,28 +1404,13 @@ MonoBehaviour:
   player2vote: 0
   player3vote: 0
   player4vote: 0
-  player1button: {fileID: 927064585}
-  player2button: {fileID: 871285224}
-  player3button: {fileID: 63476664}
-  player4button: {fileID: 931347068}
+  player1button: {fileID: 927064583}
+  player2button: {fileID: 871285222}
+  player3button: {fileID: 63476662}
+  player4button: {fileID: 931347066}
   hasvoted: 0
---- !u!114 &621265546
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 621265541}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf8e3c71bc4f5694db8313e856681c91, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player1: {fileID: 384975917}
-  player2: {fileID: 719521988}
-  player3: {fileID: 1878584301}
-  player4: {fileID: 600490871}
-  networkmanager: {fileID: 1674312915}
+  Yesbutton: {fileID: 0}
+  nobutton: {fileID: 0}
 --- !u!1 &692937002
 GameObject:
   m_ObjectHideFlags: 0
@@ -1567,7 +1551,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: Jim Jester
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1880,7 +1864,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 467.52594, y: -67}
+  m_AnchoredPosition: {x: 1177, y: 476.98}
   m_SizeDelta: {x: 199.823, y: 58.111}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &871285224
@@ -1959,7 +1943,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 825d02375cc8b164cb81bdb5577b5bcf, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 39783081904f9994eaf2b0926dcb66b3, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2147,7 +2131,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 473, y: 145.962}
+  m_AnchoredPosition: {x: 920.65, y: 480}
   m_SizeDelta: {x: 188.868, y: 52.075}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &927064585
@@ -2226,7 +2210,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 825d02375cc8b164cb81bdb5577b5bcf, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8ea90481d584ae545b9e9456408879f3, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2262,7 +2246,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &931347067
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2443,6 +2427,10 @@ PrefabInstance:
     - target: {fileID: 4636925894049450601, guid: 5fce64d47bf2ea942a93e20b7ae9a475, type: 3}
       propertyPath: m_Name
       value: NetworkManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 4636925894049450601, guid: 5fce64d47bf2ea942a93e20b7ae9a475, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2997,7 +2985,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1291974441
 Transform:
   m_ObjectHideFlags: 0
@@ -3332,7 +3320,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: Jim carrey
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4229,7 +4217,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 116, y: -40.85208}
+  m_AnchoredPosition: {x: -27, y: -49}
   m_SizeDelta: {x: 219.6424, y: 116.1502}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1524890515095357978
@@ -4725,7 +4713,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &2859393518314779483
 GameObject:
   m_ObjectHideFlags: 0
@@ -4741,7 +4729,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &2925021374467346498
 GameObject:
   m_ObjectHideFlags: 0
@@ -5662,7 +5650,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5825466310780885534}
+      - m_Target: {fileID: 1291974440}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
@@ -5673,6 +5661,18 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 8853123654594124260}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
         m_CallState: 2
 --- !u!222 &5283228636804719421
 CanvasRenderer:
@@ -6778,7 +6778,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &9049351421045343675
 GameObject:
   m_ObjectHideFlags: 0

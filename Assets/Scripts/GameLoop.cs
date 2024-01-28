@@ -17,11 +17,13 @@ public class GameLoop : MonoBehaviour
     public float player2vote;
     public float player3vote;
     public float player4vote;
-    public Button player1button;
-    public Button player2button;
-    public Button player3button;
-    public Button player4button;
+    public GameObject player1button;
+    public GameObject player2button;
+    public GameObject player3button;
+    public GameObject player4button;
     public bool hasvoted = false;
+    public GameObject Yesbutton;
+    public GameObject nobutton;
 
     // Start is called before the first frame update
     void Start()
@@ -64,7 +66,7 @@ public class GameLoop : MonoBehaviour
         {
             VoteUI.SetActive (true);
             
-            
+
 
         }
         if (hasvoted == true)
@@ -85,7 +87,7 @@ public class GameLoop : MonoBehaviour
     }
     public void Roundwin()
     {
-        hasvoted = false;
+        
         rounds++;
         roundend = false;
         
@@ -95,28 +97,31 @@ public class GameLoop : MonoBehaviour
     {
         player1vote++;
         hasvoted = true;
+
+
         VoteUI.SetActive(false);
         
     }
     public void player2voted()
     {
-        player2vote++;
-        hasvoted = true;
         VoteUI.SetActive(false);
+        hasvoted = true;
+        
+
         
     }
     public void player3voted()
     {
         player3vote++;
-        hasvoted = true;
-        VoteUI.SetActive(false);
+        
+        
         
     }
     public void player4voted() 
     {
         player4vote++;
-        hasvoted = true;
-        VoteUI.SetActive(false);
+        
+        
         
     }
     
