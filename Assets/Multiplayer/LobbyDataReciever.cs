@@ -4,10 +4,10 @@ using UnityEngine;
 using Unity.Netcode;
 public class LobbyDataReciever : MonoBehaviour
 {
-    [SerializeField] GameObject playerTitle1;
-    [SerializeField] GameObject playerTitle2;
-    [SerializeField] GameObject playerTitle3;
-    [SerializeField] GameObject playerTitle4;
+    [SerializeField] public GameObject playerTitle1;
+    [SerializeField] public GameObject playerTitle2;
+    [SerializeField] public GameObject playerTitle3;
+    [SerializeField] public GameObject playerTitle4;
 
     private void Awake()
     {
