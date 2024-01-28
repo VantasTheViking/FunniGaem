@@ -17,10 +17,7 @@ public class GameLoop : MonoBehaviour
     public float player2vote;
     public float player3vote;
     public float player4vote;
-    public GameObject player1button;
-    public GameObject player2button;
-    public GameObject player3button;
-    public GameObject player4button;
+
     public bool hasvoted = false;
     public GameObject Yesbutton;
     public GameObject nobutton;
@@ -110,19 +107,6 @@ public class GameLoop : MonoBehaviour
 
         
     }
-    public void player3voted()
-    {
-        player3vote++;
-        
-        
-        
-    }
-    public void player4voted() 
-    {
-        player4vote++;
-        
-        
-        
-    }
+    
     
 }
